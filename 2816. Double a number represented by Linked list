@@ -1,0 +1,35 @@
+ListNode* reverse(ListNode* head) {
+    if (head == nullptr || head->next == nullptr) return head;
+    ListNode* prev = nullptr;
+    ListNode* curr = head;
+    ListNode* next = nullptr;
+    while (curr) {
+        next = curr->next;
+        curr->next = prev;
+        prev = curr;
+        curr = next;
+    }
+    return prev;
+}
+
+class Solution {
+public:
+    ListNode* doubleIt(ListNode* head) {
+        
+        ListNode* revHead = reverse(head);
+        ListNode* dummy = new ListNode(0); 
+        ListNode* tc = dummy;             
+        int carry = 0;
+
+        while (revHead || carry) {
+            int val = (revHead ? revHead->val : 0) * 2 + carry;
+            carry = val / 10;                                  
+            int lastDigit = val % 10;                          
+            tc->next = new ListNode(lastDigit);                
+            tc = tc->next;
+            if (revHead) revHead = revHead->next;         
+        }
+
+        return reverse(dummy->next);
+    }
+};
